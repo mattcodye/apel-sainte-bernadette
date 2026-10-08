@@ -444,6 +444,7 @@ function submit(ev){
     if (j && j.ok) {
       $("#thanks-recap").innerHTML = "<h3>Votre don</h3>" + $("#recap-body").innerHTML;
       if (j.stock) stock = j.stock;
+      sel = {}; render();
       document.body.classList.add("sent");
       window.scrollTo({top: 0, behavior: "smooth"});
       return;
