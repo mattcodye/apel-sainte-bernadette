@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Je donne des plants · Végétalisation de la cour</title>
+<meta name="description" content="Choisissez les plants que vous apportez pour végétaliser la cour de l’école Sainte Bernadette. Les jauges se mettent à jour en temps réel.">
+<meta name="theme-color" content="#007a46">
+<meta property="og:title" content="Je donne des plants pour la cour">
+<meta property="og:description" content="Participez à la végétalisation de la cour de l’école Sainte Bernadette.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#007a46;--green-br:#00a359;--green-soft:#eaf3e5;--green-deep:#0b3d2a;
+  --pink:#c21f7a;--pink-soft:#fff1f6;--blue:#006fb6;--blue-soft:#e6f1f9;
+  --dark:#1f2d3d;--body:#4a5563;--muted:#5c6570;--line:#e3e8e1;
+  --page:#f2f5ef;--card:#ffffff;--warn:#9a5b00;--warn-soft:#fff4dc;
+  --r-lg:28px;--r-md:20px;--r-sm:14px;
+  --shadow:0 1px 2px rgba(16,40,28,.05),0 8px 28px rgba(16,40,28,.07);
+  --font:'Montserrat','Helvetica Neue',Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--body);font:400 16px/1.55 var(--font);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Bandeau démo */
+.demo{background:var(--warn-soft);color:var(--warn);font-weight:700;font-size:13px;text-align:center;padding:8px 16px}
+
+/* En-tête */
+.hero{position:relative;overflow:hidden;margin:16px 0 0;border-radius:var(--r-lg);color:#fff;
+  background:radial-gradient(120% 140% at 100% 0%,#00a359 0%,rgba(0,163,89,0) 55%),linear-gradient(135deg,#0b3d2a 0%,#007a46 70%,#13905a 100%)}
+.hero-in{position:relative;padding:44px 40px 40px;max-width:720px}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}
+.hero h1{margin:18px 0 12px;font-size:clamp(28px,5.2vw,44px);line-height:1.08;font-weight:800;letter-spacing:-.5px}
+.hero p{margin:0;font-size:17px;color:#e3f3ea;max-width:560px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--green-deep);padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700}
+.leaves{position:absolute;right:-30px;bottom:-40px;width:300px;opacity:.18;pointer-events:none}
+
+/* Étapes */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 0}
+.step{background:var(--card);border-radius:var(--r-md);padding:18px 20px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow)}
+.step b{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--green-soft);color:var(--green);font-weight:800}
+.step p{margin:0;font-size:14px;line-height:1.45}
+.step strong{display:block;color:var(--dark);font-size:15px}
+
+/* Vue d'ensemble */
+.section-title{margin:40px 0 14px;font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green)}
+.overview{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.ov{all:unset;cursor:pointer;background:var(--card);border-radius:var(--r-md);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;transition:transform .15s ease}
+.ov:hover{transform:translateY(-2px)}
+.ov:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.ov-top{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--dark);font-size:14px;line-height:1.25}
+.ov-ico{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--green-soft);font-size:19px}
+.ov-num{font-size:30px;font-weight:800;color:var(--dark);line-height:1;font-variant-numeric:tabular-nums}
+.ov-num small{font-size:14px;font-weight:600;color:var(--muted)}
+.ov-cap{font-size:12px;color:var(--muted);line-height:1.3}
+
+/* Jauge */
+.bar{position:relative;height:14px;border-radius:999px;background:#e7ece4;overflow:hidden}
+.bar-big{height:22px}
+.bar .rem,.bar .mine{position:absolute;top:0;bottom:0;transition:width .45s cubic-bezier(.2,.8,.2,1),left .45s cubic-bezier(.2,.8,.2,1)}
+.bar .rem{left:0;background:linear-gradient(90deg,var(--green) 0%,var(--green-br) 100%);border-radius:999px}
+.bar .mine{background:repeating-linear-gradient(-45deg,var(--pink) 0 6px,#e0479a 6px 12px);border-radius:0 999px 999px 0}
+.done .bar .rem{background:var(--green-br)}
+.full-msg{display:none}
+.done .full-msg{display:inline}
+.done .live-msg{display:none}
+
+/* Catégories */
+.cat{margin:16px 0 0;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);scroll-margin-top:16px}
+.cat-head{padding:26px 28px 22px;border-bottom:1px solid var(--line)}
+.cat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cat-title{display:flex;align-items:center;gap:14px}
+.cat-ico{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:var(--green-soft);font-size:26px}
+.cat h2{margin:0;font-size:24px;line-height:1.15;font-weight:800;color:var(--dark)}
+.cat-sub{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.gauge-num{text-align:right}
+.gauge-num .n{font-size:44px;line-height:1;font-weight:800;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-1px}
+.gauge-num .of{font-size:18px;font-weight:700;color:var(--muted)}
+.gauge-num .lbl{display:block;margin-top:6px;font-size:13px;font-weight:600;color:var(--muted)}
+.cat-gauge{margin-top:18px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:13px;font-weight:600;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend .l-rem i{background:var(--green)}
+.legend .l-mine i{background:var(--pink)}
+.legend .l-mine{color:var(--pink)}
+.legend .l-taken i{background:#d9e0d5}
+.note{margin:14px 0 0;padding:10px 14px;border-radius:var(--r-sm);background:var(--blue-soft);color:#0b4f7d;font-size:14px;font-weight:600}
+.over{display:none;margin:14px 0 0;padding:10px 14px;border-radius:var(--r-sm);background:var(--warn-soft);color:var(--warn);font-size:14px;font-weight:700}
+.is-over .over{display:block}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;padding:20px 24px 26px}
+.item{position:relative;display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:var(--r-md);background:#fafbf8;border:2px solid transparent;transition:border-color .2s,background .2s,box-shadow .2s}
+.item.on{border-color:var(--green-br);background:#f3faf5;box-shadow:0 6px 18px rgba(0,122,70,.10)}
+.item-top{display:flex;align-items:center;gap:12px;min-height:64px}
+.item img{flex:none;width:64px;height:64px;border-radius:14px;object-fit:cover;background:var(--green-soft)}
+.item-name{font-size:15px;font-weight:700;color:var(--dark);line-height:1.25}
+.badge{position:absolute;top:-8px;right:-8px;min-width:28px;height:28px;padding:0 8px;border-radius:999px;background:var(--pink);color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center;transform:scale(0);transition:transform .2s}
+.item.on .badge{transform:scale(1)}
+.stepper{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px}
+.stepper button{all:unset;cursor:pointer;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:22px;font-weight:700;color:var(--green);background:var(--green-soft);transition:background .15s,opacity .15s}
+.stepper button:hover{background:#d8ecd0}
+.stepper button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.stepper button[disabled]{opacity:.35;cursor:not-allowed;background:#eef1ec}
+.stepper output{min-width:40px;text-align:center;font-size:20px;font-weight:800;color:var(--dark);font-variant-numeric:tabular-nums}
+
+/* Coordonnées */
+.form{margin:16px 0 0;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:30px 28px;scroll-margin-top:16px}
+.form h2{margin:0 0 6px;font-size:24px;font-weight:800;color:var(--dark)}
+.form .lead{margin:0 0 22px;color:var(--muted);font-size:15px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.wide{grid-column:1/-1}
+.field label{font-size:14px;font-weight:700;color:var(--dark)}
+.field input,.field textarea{width:100%;border:1.5px solid #d5ddd2;border-radius:var(--r-sm);padding:13px 14px;background:#fff;font-size:16px;transition:border-color .15s,box-shadow .15s}
+.field textarea{min-height:96px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px rgba(0,122,70,.12)}
+.field .err{display:none;color:#b42318;font-size:13px;font-weight:600}
+.field.bad input{border-color:#d92d20}
+.field.bad .err{display:block}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.consent{display:flex;gap:12px;align-items:flex-start;margin-top:18px;padding:16px;border-radius:var(--r-sm);background:var(--page);font-size:14px;line-height:1.5;cursor:pointer}
+.consent input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--green)}
+.consent.bad{outline:2px solid #d92d20}
+.recap{margin:22px 0 0;padding:18px 20px;border-radius:var(--r-md);background:var(--green-soft)}
+.recap h3{margin:0 0 8px;font-size:15px;font-weight:800;color:var(--green-deep)}
+.recap ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.recap li{background:#fff;border-radius:999px;padding:6px 12px;font-size:14px;font-weight:600;color:var(--dark)}
+.recap .empty{color:var(--muted);font-size:14px}
+.alert{display:none;margin:18px 0 0;padding:14px 16px;border-radius:var(--r-sm);background:#fdecea;color:#912018;font-weight:600;font-size:15px}
+.alert.show{display:block}
+.submit{margin-top:22px;width:100%;border:0;cursor:pointer;padding:18px 24px;border-radius:999px;background:var(--pink);color:#fff;font-size:17px;font-weight:800;box-shadow:0 10px 24px rgba(194,31,122,.25);transition:transform .15s,opacity .15s}
+.submit:hover{transform:translateY(-1px)}
+.submit[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+
+/* Barre collante */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s}
+.dock.show{transform:none}
+.dock-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dock-txt{font-size:14px;color:var(--muted);line-height:1.3}
+.dock-txt strong{display:block;font-size:17px;color:var(--dark)}
+.dock a{flex:none;text-decoration:none;background:var(--pink);color:#fff;font-weight:800;padding:14px 22px;border-radius:999px;font-size:15px}
+
+/* Merci */
+.thanks{display:none;margin:16px 0 0;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:48px 32px;text-align:center}
+.thanks .big{font-size:56px;line-height:1}
+.thanks h2{margin:16px 0 8px;font-size:30px;font-weight:800;color:var(--dark)}
+.thanks p{margin:0 auto;max-width:520px;font-size:16px}
+.thanks .recap{text-align:left;max-width:640px;margin:26px auto 0}
+.thanks .again{display:inline-block;margin-top:24px;color:var(--green);font-weight:700}
+body.sent main > :not(.thanks){display:none}
+body.sent .thanks{display:block}
+body.sent .dock{display:none}
+
+footer{padding:36px 16px 120px;text-align:center;font-size:13px;color:var(--muted)}
+footer strong{color:var(--dark)}
+
+.live{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--green);margin-left:8px;letter-spacing:0;text-transform:none}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green-br);box-shadow:0 0 0 0 rgba(0,163,89,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,163,89,.55)}70%{box-shadow:0 0 0 8px rgba(0,163,89,0)}100%{box-shadow:0 0 0 0 rgba(0,163,89,0)}}
+.skeleton .ov-num,.skeleton .gauge-num .n{color:transparent;background:#e7ece4;border-radius:8px}
+
+@media (max-width:900px){.overview{grid-template-columns:repeat(2,1fr)}.overview .ov:last-child{grid-column:1/-1}}
+@media (max-width:720px){
+  .steps{grid-template-columns:1fr}
+  .hero-in{padding:34px 22px 30px}
+  .cat-head{padding:22px 18px 18px}
+  .grid{grid-template-columns:1fr;gap:8px;padding:14px 12px 18px}
+  .item{flex-direction:row;align-items:center;gap:10px;padding:8px 8px 8px 8px}
+  .item-top{flex:1;min-width:0;min-height:56px;gap:10px}
+  .item img{width:56px;height:56px;border-radius:12px}
+  .item-name{font-size:15px}
+  .badge{top:-6px;left:44px;right:auto;min-width:24px;height:24px;font-size:12px}
+  .stepper{flex:none;padding:3px}
+  .stepper button{width:38px;height:38px}
+  .stepper output{min-width:34px;font-size:18px}
+  .step{padding:12px 14px;gap:12px;box-shadow:none}
+  .step b{width:28px;height:28px;font-size:14px}
+  .steps{gap:8px}
+  .chip{font-size:13px;padding:8px 14px}
+  .hero p{font-size:16px}
+  .gauge-num{text-align:left}
+  .gauge-num .n{font-size:38px}
+  .fields{grid-template-columns:1fr}
+  .form{padding:24px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="demo" id="demo" hidden>Mode aperçu. Aucun don n’est enregistré.</div>
+<main class="wrap">
+
+  <header class="hero">
+    <svg class="leaves" viewBox="0 0 200 200" aria-hidden="true"><path fill="#fff" d="M100 10c40 30 60 70 50 120-50 10-90-10-120-50C60 70 80 40 100 10Zm0 40c-10 30-10 60 20 100"/><path fill="none" stroke="#fff" stroke-width="4" d="M40 80c40 20 70 50 100 100"/></svg>
+    <div class="hero-in">
+      <span class="eyebrow">&#127793; Végétalisation de la cour</span>
+      <h1>Participez à la végétalisation de la cour&nbsp;!</h1>
+      <p>Nous recherchons des plants pour créer une cour plus verte, plus fraîche et plus accueillante. Choisissez ce que vous pouvez apporter, les jauges se mettent à jour en temps réel.</p>
+      <div class="chips">
+        <span class="chip">&#128197; Atelier Plantation les 9 et 10 novembre</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="steps" aria-label="Comment ça marche">
+    <div class="step"><b>1</b><p><strong>Choisissez vos plants</strong>Avec les boutons + et −, dans une ou plusieurs catégories.</p></div>
+    <div class="step"><b>2</b><p><strong>Laissez vos coordonnées</strong>Pour recevoir le récapitulatif de votre don par e-mail.</p></div>
+    <div class="step"><b>3</b><p><strong>Apportez-les à l’atelier</strong>Le jour de l’atelier plantation, les 9 et 10 novembre.</p></div>
+  </div>
+
+  <h2 class="section-title">Où en est la collecte <span class="live" id="live">en direct</span></h2>
+  <div class="overview skeleton" id="overview"></div>
+
+  <div id="cats"></div>
+
+  <section class="form" id="coord" aria-labelledby="coord-t">
+    <h2 id="coord-t">Vos coordonnées</h2>
+    <p class="lead">Elles servent uniquement à organiser la collecte et à vous envoyer le récapitulatif.</p>
+    <form id="f" novalidate>
+      <div class="fields">
+        <div class="field"><label for="prenom">Prénom</label><input id="prenom" name="prenom" autocomplete="given-name" required maxlength="60"><span class="err">Merci d’indiquer votre prénom.</span></div>
+        <div class="field"><label for="nom">Nom</label><input id="nom" name="nom" autocomplete="family-name" required maxlength="60"><span class="err">Merci d’indiquer votre nom.</span></div>
+        <div class="field wide"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120" placeholder="prenom.nom@exemple.fr"><span class="err">Merci d’indiquer une adresse e-mail valide.</span></div>
+        <div class="field wide"><label for="commentaire">Commentaire <span style="font-weight:500;color:var(--muted)">(facultatif)</span></label><textarea id="commentaire" name="commentaire" maxlength="1000"></textarea></div>
+      </div>
+      <div class="hp" aria-hidden="true"><label for="website">Ne pas remplir</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+      <label class="consent" id="consent-box"><input type="checkbox" id="consent"><span>J’accepte que mes coordonnées soient utilisées uniquement pour organiser la collecte des plantes de l’opération Végétalisation de la cour. Elles seront supprimées à la fin de l’opération. Vous pouvez demander leur suppression à tout moment en répondant à l’e-mail de confirmation.</span></label>
+      <div class="recap" id="recap"><h3>Votre don</h3><div id="recap-body"></div></div>
+      <div class="alert" id="alert" role="alert"></div>
+      <button class="submit" id="submit" type="submit">Je confirme mon don</button>
+    </form>
+  </section>
+
+  <section class="thanks" id="thanks" aria-live="polite">
+    <div class="big">&#127807;</div>
+    <h2>Merci pour votre don&nbsp;!</h2>
+    <p>Un e-mail récapitulatif vous a été envoyé. Les plants sont à apporter le jour de l’atelier plantation, les 9 et 10 novembre.</p>
+    <div class="recap" id="thanks-recap"></div>
+    <a class="again" href="">Faire un autre don</a>
+  </section>
+</main>
+
+<div class="dock" id="dock" aria-live="polite">
+  <div class="dock-in">
+    <div class="dock-txt" id="dock-txt"></div>
+    <a href="#coord">Valider mon don</a>
+  </div>
+</div>
+
+<footer><strong>École Sainte Bernadette</strong> · Angers<br>Merci pour votre participation&nbsp;!</footer>
+
+<script>
+(function(){
+"use strict";
+var API_URL = "";
+var CATALOG = [{"id": "fruits", "label": "Petits fruits", "total": 40, "maxPerItem": 5, "unit": "plants", "icon": "🍓", "items": [{"id": "cassissier", "name": "Cassissier"}, {"id": "framboisier", "name": "Framboisier"}, {"id": "groseillier", "name": "Groseillier"}]}, {"id": "grimpantes", "label": "Grimpantes", "total": 12, "maxPerItem": 2, "unit": "plants", "icon": "🌿", "items": [{"id": "akebie-a-cinq-feuilles", "name": "Akébie à cinq feuilles"}, {"id": "capucine", "name": "Capucine"}, {"id": "chevrefeuille-des-bois", "name": "Chèvrefeuille des bois"}, {"id": "clematite-des-montagnes", "name": "Clématite des montagnes"}, {"id": "hortensia-grimpant", "name": "Hortensia grimpant"}, {"id": "houblon", "name": "Houblon"}, {"id": "houblon-dore", "name": "Houblon doré"}, {"id": "lierre", "name": "Lierre"}, {"id": "muroise", "name": "Mûroise"}, {"id": "vigne", "name": "Vigne"}]}, {"id": "vivaces", "label": "Vivaces", "total": 900, "maxPerItem": 10, "unit": "plants", "icon": "🌸", "items": [{"id": "achillee-millefeuille", "name": "Achillée millefeuille"}, {"id": "agastache", "name": "Agastache"}, {"id": "anemone-du-japon", "name": "Anémone du Japon"}, {"id": "aster-grand-d-automne", "name": "Aster grand d'automne"}, {"id": "camomille", "name": "Camomille"}, {"id": "eupatoire-chanvrine", "name": "Eupatoire chanvrine"}, {"id": "marguerite-commune", "name": "Marguerite commune"}, {"id": "mauve-musquee", "name": "Mauve musquée"}, {"id": "monarde", "name": "Monarde"}, {"id": "illet-des-pres", "name": "Œillet des prés"}, {"id": "petite-scabieuse-de-macedoine", "name": "Petite scabieuse de Macédoine"}, {"id": "primevere-acaule", "name": "Primevère acaule"}, {"id": "santoline", "name": "Santoline"}, {"id": "sauge-des-bois", "name": "Sauge des bois"}, {"id": "sauge-des-pres", "name": "Sauge des prés"}, {"id": "sauge-officinale", "name": "Sauge officinale"}, {"id": "scabieuse-des-champs", "name": "Scabieuse des champs"}, {"id": "scabieuse", "name": "Scabieuse"}, {"id": "tanaisie", "name": "Tanaisie"}, {"id": "tournesol", "name": "Tournesol"}, {"id": "valeriane-officinale", "name": "Valériane officinale"}, {"id": "vergerette", "name": "Vergerette"}, {"id": "artichaut", "name": "Artichaut"}, {"id": "ciboulette", "name": "Ciboulette"}, {"id": "fraisier-des-bois", "name": "Fraisier des bois"}, {"id": "melisse", "name": "Mélisse"}, {"id": "menthe-poivree", "name": "Menthe poivrée"}, {"id": "fenouil", "name": "Fenouil"}]}, {"id": "couvre-sols", "label": "Couvre-sols et zones ombragées", "total": 80, "maxPerItem": 5, "unit": "plants", "icon": "🍃", "items": [{"id": "fleurs-des-elfes", "name": "Fleurs des elfes"}, {"id": "fougere-male", "name": "Fougère mâle"}, {"id": "geranium-a-gros-rhizome", "name": "Géranium à gros rhizome"}, {"id": "geranium-vivace", "name": "Géranium vivace"}, {"id": "heuchere-citronelle", "name": "Heuchère 'Citronelle'"}, {"id": "heuchere-desespoir-du-peintre", "name": "Heuchère 'Désespoir du peintre'"}, {"id": "petite-pervenche", "name": "Petite pervenche"}, {"id": "pervenche", "name": "Pervenche"}]}, {"id": "graines", "label": "Graines", "total": 40, "maxPerItem": 3, "unit": "lots", "icon": "🌾", "items": [{"id": "avoine", "name": "Avoine"}, {"id": "bleuet", "name": "Bleuet"}, {"id": "bourrache", "name": "Bourrache"}, {"id": "centauree-scabieuse", "name": "Centaurée scabieuse"}, {"id": "coquelicot", "name": "Coquelicot"}, {"id": "feverole", "name": "Féverole"}, {"id": "haricot", "name": "Haricot"}, {"id": "moutarde-blanche", "name": "Moutarde blanche"}, {"id": "phacelie", "name": "Phacélie"}, {"id": "rose-tremiere", "name": "Rose trémière"}, {"id": "sarrasin", "name": "Sarrasin"}, {"id": "seigle", "name": "Seigle"}, {"id": "souci-officinal", "name": "Souci officinal"}, {"id": "trefle-blanc", "name": "Trèfle blanc"}, {"id": "trefle-incarnat", "name": "Trèfle incarnat"}, {"id": "vesce-commune", "name": "Vesce commune"}]}];
+var POLL_MS = 20000;
+
+var params = new URLSearchParams(location.search);
+var DEMO = !/^https:\/\/script\.google\.com\//.test(API_URL) || params.has("demo");
+var sel = {};          // quantité choisie par plante
+var stock = null;      // {catId:{total,taken,remaining}}
+var sending = false;
+
+var byItem = {};
+CATALOG.forEach(function(c){ c.items.forEach(function(it){ byItem[it.id] = c; }); });
+
+function $(s, r){ return (r || document).querySelector(s); }
+function el(tag, cls, html){ var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+function esc(s){ return String(s).replace(/[&<>"']/g, function(ch){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]; }); }
+function fmt(n){ return n.toLocaleString("fr-FR"); }
+function unitWord(c, n){ return c.unit === "lots" ? (n > 1 ? "lots" : "lot") : (n > 1 ? "plants" : "plant"); }
+function catSel(c){ return c.items.reduce(function(s, it){ return s + (sel[it.id] || 0); }, 0); }
+
+/* ---------- Construction ---------- */
+function build(){
+  var ov = $("#overview"), cats = $("#cats");
+  CATALOG.forEach(function(c){
+    var o = el("button", "ov");
+    o.type = "button"; o.id = "ov-" + c.id;
+    o.innerHTML = '<span class="ov-top"><span class="ov-ico" aria-hidden="true">' + c.icon + '</span>' + esc(c.label) + '</span>'
+      + '<span class="ov-num"><span class="v">0</span> <small>/ ' + fmt(c.total) + '</small></span>'
+      + '<span class="bar"><span class="rem"></span><span class="mine"></span></span>'
+      + '<span class="ov-cap">' + (c.unit === "lots" ? "lots encore attendus" : "plants encore attendus") + '</span>';
+    o.addEventListener("click", function(){ document.getElementById("cat-" + c.id).scrollIntoView({behavior: "smooth", block: "start"}); });
+    ov.appendChild(o);
+
+    var s = el("section", "cat"); s.id = "cat-" + c.id; s.setAttribute("aria-labelledby", "t-" + c.id);
+    var note = c.id === "graines" ? '<p class="note">1 lot correspond à la quantité de graines nécessaire pour semer 5&nbsp;m², indiquée sur le sachet. 40 lots couvrent 200&nbsp;m².</p>' : "";
+    s.innerHTML = '<div class="cat-head">'
+      + '<div class="cat-row"><div class="cat-title"><span class="cat-ico" aria-hidden="true">' + c.icon + '</span><div><h2 id="t-' + c.id + '">' + esc(c.label) + '</h2>'
+      + '<p class="cat-sub">' + c.items.length + ' variétés · jusqu’à ' + c.maxPerItem + ' par variété</p></div></div>'
+      + '<div class="gauge-num" aria-live="polite"><span class="n">0</span> <span class="of">/ ' + fmt(c.total) + '</span>'
+      + '<span class="lbl"><span class="live-msg">' + (c.unit === "lots" ? "lots encore attendus" : "plants encore attendus") + '</span><span class="full-msg">Objectif atteint, merci&nbsp;!</span></span></div></div>'
+      + '<div class="cat-gauge"><div class="bar bar-big" role="meter" aria-label="Jauge ' + esc(c.label) + '" aria-valuemin="0" aria-valuemax="' + c.total + '"><span class="rem"></span><span class="mine"></span></div>'
+      + '<div class="legend"><span class="l-rem"><i></i>Encore attendus</span><span class="l-mine"><i></i>Votre don <b class="mine-n">0</b></span><span class="l-taken"><i></i>Déjà promis</span></div></div>'
+      + note + '<p class="over">Le stock de cette catégorie vient de baisser. Merci de réduire votre sélection.</p></div>';
+    var g = el("div", "grid");
+    c.items.forEach(function(it){
+      var card = el("div", "item"); card.id = "it-" + it.id;
+      card.innerHTML = '<span class="badge" aria-hidden="true">0</span>'
+        + '<div class="item-top"><img src="img/' + it.id + '.jpg" alt="" width="64" height="64" loading="lazy"><span class="item-name">' + esc(it.name) + '</span></div>'
+        + '<div class="stepper" role="group" aria-label="Quantité de ' + esc(it.name) + '">'
+        + '<button type="button" class="minus" aria-label="Retirer un ' + esc(it.name) + '">−</button>'
+        + '<output aria-live="polite">0</output>'
+        + '<button type="button" class="plus" aria-label="Ajouter un ' + esc(it.name) + '">+</button></div>';
+      card.querySelector(".minus").addEventListener("click", function(){ change(it.id, -1); });
+      card.querySelector(".plus").addEventListener("click", function(){ change(it.id, +1); });
+      g.appendChild(card);
+    });
+    s.appendChild(g);
+    cats.appendChild(s);
+  });
+}
+
+/* ---------- Logique ---------- */
+function remainingFor(c){ return stock ? stock[c.id].remaining : c.total; }
+
+function change(id, d){
+  var c = byItem[id], cur = sel[id] || 0, next = cur + d;
+  if (next < 0) return;
+  if (d > 0 && (next > c.maxPerItem || catSel(c) + 1 > remainingFor(c))) return;
+  sel[id] = next;
+  render();
+}
+
+function render(){
+  var totalItems = 0, catsUsed = 0, anyOver = false;
+  CATALOG.forEach(function(c){
+    var st = stock ? stock[c.id] : {total: c.total, remaining: c.total};
+    var total = st.total || c.total, rem = st.remaining, mine = catSel(c);
+    var after = Math.max(0, rem - mine), over = mine > rem;
+    if (mine) { totalItems += mine; catsUsed++; }
+    anyOver = anyOver || over;
+    var pRem = total ? Math.max(0, Math.min(100, after / total * 100)) : 0;
+    var pMine = total ? Math.max(0, Math.min(100 - pRem, Math.min(mine, rem) / total * 100)) : 0;
+
+    var o = document.getElementById("ov-" + c.id);
+    o.querySelector(".v").textContent = fmt(after);
+    o.querySelector("small").textContent = "/ " + fmt(total);
+    o.querySelector(".rem").style.width = pRem + "%";
+    var om = o.querySelector(".mine"); om.style.left = pRem + "%"; om.style.width = pMine + "%";
+
+    var s = document.getElementById("cat-" + c.id);
+    s.classList.toggle("done", rem <= 0);
+    s.classList.toggle("is-over", over);
+    s.querySelector(".gauge-num .n").textContent = fmt(after);
+    s.querySelector(".gauge-num .of").textContent = "/ " + fmt(total);
+    var bar = s.querySelector(".bar-big"); bar.setAttribute("aria-valuenow", after); bar.setAttribute("aria-valuetext", fmt(after) + " sur " + fmt(total) + " encore attendus");
+    bar.querySelector(".rem").style.width = pRem + "%";
+    var bm = bar.querySelector(".mine"); bm.style.left = pRem + "%"; bm.style.width = pMine + "%";
+    s.querySelector(".mine-n").textContent = mine ? fmt(mine) + " " + unitWord(c, mine) : "0";
+    var catFull = mine >= rem;
+    c.items.forEach(function(it){
+      var q = sel[it.id] || 0, card = document.getElementById("it-" + it.id);
+      card.classList.toggle("on", q > 0);
+      card.querySelector(".badge").textContent = q;
+      card.querySelector("output").textContent = q;
+      card.querySelector(".minus").disabled = q === 0;
+      card.querySelector(".plus").disabled = q >= c.maxPerItem || catFull;
+    });
+  });
+  if (stock) $("#overview").classList.remove("skeleton");
+
+  // Récapitulatif
+  var rb = $("#recap-body"), lines = recapLines();
+  rb.innerHTML = lines.length ? "<ul>" + lines.map(function(l){ return "<li>" + esc(l) + "</li>"; }).join("") + "</ul>"
+    : '<p class="empty">Aucun plant choisi pour l’instant. Utilisez les boutons + dans les catégories ci-dessus.</p>';
+
+  var dock = $("#dock");
+  dock.classList.toggle("show", totalItems > 0);
+  $("#dock-txt").innerHTML = "<strong>" + fmt(totalItems) + (totalItems > 1 ? " éléments choisis" : " élément choisi") + "</strong>"
+    + catsUsed + (catsUsed > 1 ? " catégories" : " catégorie");
+  $("#submit").disabled = sending || totalItems === 0 || anyOver;
+}
+
+function recapLines(){
+  var out = [];
+  CATALOG.forEach(function(c){ c.items.forEach(function(it){
+    var q = sel[it.id] || 0;
+    if (q) out.push(it.name + " × " + q + (c.unit === "lots" ? " " + unitWord(c, q) : ""));
+  }); });
+  return out;
+}
+
+/* ---------- Réseau ---------- */
+var demoTaken = {fruits: 12, grimpantes: 5, vivaces: 310, "couvre-sols": 24, graines: 9};
+function demoStock(){
+  var s = {};
+  CATALOG.forEach(function(c){ var t = demoTaken[c.id] || 0; s[c.id] = {total: c.total, taken: t, remaining: Math.max(0, c.total - t)}; });
+  return s;
+}
+
+function loadStock(){
+  if (DEMO) { stock = demoStock(); render(); return Promise.resolve(); }
+  return fetch(API_URL + "?t=" + Date.now(), {cache: "no-store"})
+    .then(function(r){ return r.json(); })
+    .then(function(j){ if (j && j.ok) { stock = j.stock; render(); } })
+    .catch(function(){ $("#live").textContent = "connexion en cours"; });
+}
+
+function showAlert(msg){ var a = $("#alert"); a.textContent = msg; a.classList.add("show"); }
+
+function validate(){
+  var ok = true;
+  ["prenom", "nom", "email"].forEach(function(id){
+    var i = document.getElementById(id), v = i.value.trim();
+    var bad = !v || (id === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v));
+    i.parentNode.classList.toggle("bad", bad);
+    i.setAttribute("aria-invalid", bad ? "true" : "false");
+    if (bad && ok) { i.focus(); ok = false; }
+  });
+  var c = $("#consent"), cb = $("#consent-box");
+  cb.classList.toggle("bad", !c.checked);
+  if (!c.checked && ok) { c.focus(); ok = false; }
+  return ok;
+}
+
+function submit(ev){
+  ev.preventDefault();
+  $("#alert").classList.remove("show");
+  if (!recapLines().length) { showAlert("Choisissez au moins un plant avant de confirmer."); return; }
+  if (!validate()) return;
+  var payload = {
+    prenom: $("#prenom").value, nom: $("#nom").value, email: $("#email").value,
+    commentaire: $("#commentaire").value, consent: $("#consent").checked,
+    website: $("#website").value, items: sel
+  };
+  sending = true; render();
+  var btn = $("#submit"); btn.textContent = "Envoi en cours…";
+  var done = function(j){
+    sending = false; btn.textContent = "Je confirme mon don";
+    if (j && j.ok) {
+      $("#thanks-recap").innerHTML = "<h3>Votre don</h3>" + $("#recap-body").innerHTML;
+      if (j.stock) stock = j.stock;
+      document.body.classList.add("sent");
+      window.scrollTo({top: 0, behavior: "smooth"});
+      return;
+    }
+    if (j && j.stock) stock = j.stock;
+    render();
+    var msg = {
+      stock: "Entre-temps, d’autres familles ont choisi des plants et le stock a baissé. Les jauges sont à jour, ajustez votre sélection puis confirmez à nouveau.",
+      email: "L’adresse e-mail ne semble pas valide.", consent: "Merci d’accepter l’utilisation de vos coordonnées.",
+      vide: "Choisissez au moins un plant avant de confirmer.", occupe: "Beaucoup de dons arrivent en même temps. Réessayez dans quelques secondes."
+    }[j && j.error] || "Votre don n’a pas pu être envoyé. Vérifiez votre connexion et réessayez.";
+    showAlert(msg);
+    if (j && j.error === "stock" && j.categories && j.categories[0]) document.getElementById("cat-" + j.categories[0]).scrollIntoView({behavior: "smooth"});
+  };
+  if (DEMO) {
+    setTimeout(function(){
+      CATALOG.forEach(function(c){ demoTaken[c.id] = (demoTaken[c.id] || 0) + catSel(c); });
+      done({ok: true, stock: demoStock()});
+    }, 700);
+    return;
+  }
+  fetch(API_URL, {method: "POST", headers: {"Content-Type": "text/plain;charset=utf-8"}, body: JSON.stringify(payload)})
+    .then(function(r){ return r.json(); }).then(done)
+    .catch(function(){ done(null); });
+}
+
+/* ---------- Démarrage ---------- */
+build();
+render();
+if (DEMO) $("#demo").hidden = false;
+loadStock();
+setInterval(function(){ if (!document.hidden && !document.body.classList.contains("sent")) loadStock(); }, POLL_MS);
+document.addEventListener("visibilitychange", function(){ if (!document.hidden) loadStock(); });
+$("#f").addEventListener("submit", submit);
+["prenom", "nom", "email"].forEach(function(id){
+  document.getElementById(id).addEventListener("input", function(){ this.parentNode.classList.remove("bad"); });
+});
+$("#consent").addEventListener("change", function(){ $("#consent-box").classList.remove("bad"); });
+})();
+</script>
+</body>
+</html>
