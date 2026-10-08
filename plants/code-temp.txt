@@ -1,0 +1,525 @@
+/**
+ * Végétalisation de la cour, École Sainte Bernadette
+ * Collecte des dons de plants avec jauges par catégorie.
+ *
+ * Installation (une seule fois) :
+ * 1. Dans le Google Sheet, menu Extensions > Apps Script, coller ce fichier à la place du contenu.
+ * 2. Renseigner CONFIG ci-dessous (adresse de réponse, adresse de notification).
+ * 3. Exécuter la fonction "installer" une fois et accepter les autorisations.
+ * 4. Déployer > Nouveau déploiement > Application Web :
+ *    Exécuter en tant que "Moi", Accès "Tout le monde". Copier l'URL /exec.
+ *
+ * Les totaux par catégorie se modifient dans l'onglet "Stocks" (colonne Total), sans toucher au code.
+ */
+
+var CONFIG = {
+  // Adresse qui recevra les réponses des donateurs à l'e-mail de confirmation (laisser vide pour aucune).
+  REPLY_TO: '',
+  // Adresse qui reçoit une copie de chaque don (laisser vide pour aucune).
+  NOTIFY_TO: '',
+  // Nom d'expéditeur affiché dans l'e-mail de confirmation.
+  SENDER_NAME: 'École Sainte Bernadette',
+  // Envoyer un e-mail de confirmation au donateur.
+  // Désactivé : l’e-mail partirait de l’adresse du compte Google qui a déployé le script.
+  SEND_CONFIRMATION: false,
+  // Phrase rappelée dans l'e-mail de confirmation.
+  RAPPEL: 'Les plants sont à apporter le jour de l’atelier plantation, les 9 et 10 novembre.'
+};
+
+var CATALOG = [
+  {
+    "id": "fruits",
+    "label": "Petits fruits",
+    "total": 40,
+    "maxPerItem": 5,
+    "unit": "plants",
+    "icon": "🍓",
+    "items": [
+      {
+        "id": "cassissier",
+        "name": "Cassissier"
+      },
+      {
+        "id": "framboisier",
+        "name": "Framboisier"
+      },
+      {
+        "id": "groseillier",
+        "name": "Groseillier"
+      }
+    ]
+  },
+  {
+    "id": "grimpantes",
+    "label": "Grimpantes",
+    "total": 12,
+    "maxPerItem": 2,
+    "unit": "plants",
+    "icon": "🌿",
+    "items": [
+      {
+        "id": "akebie-a-cinq-feuilles",
+        "name": "Akébie à cinq feuilles"
+      },
+      {
+        "id": "capucine",
+        "name": "Capucine"
+      },
+      {
+        "id": "chevrefeuille-des-bois",
+        "name": "Chèvrefeuille des bois"
+      },
+      {
+        "id": "clematite-des-montagnes",
+        "name": "Clématite des montagnes"
+      },
+      {
+        "id": "hortensia-grimpant",
+        "name": "Hortensia grimpant"
+      },
+      {
+        "id": "houblon",
+        "name": "Houblon"
+      },
+      {
+        "id": "houblon-dore",
+        "name": "Houblon doré"
+      },
+      {
+        "id": "lierre",
+        "name": "Lierre"
+      },
+      {
+        "id": "muroise",
+        "name": "Mûroise"
+      },
+      {
+        "id": "vigne",
+        "name": "Vigne"
+      }
+    ]
+  },
+  {
+    "id": "vivaces",
+    "label": "Vivaces",
+    "total": 900,
+    "maxPerItem": 10,
+    "unit": "plants",
+    "icon": "🌸",
+    "items": [
+      {
+        "id": "achillee-millefeuille",
+        "name": "Achillée millefeuille"
+      },
+      {
+        "id": "agastache",
+        "name": "Agastache"
+      },
+      {
+        "id": "anemone-du-japon",
+        "name": "Anémone du Japon"
+      },
+      {
+        "id": "aster-grand-d-automne",
+        "name": "Aster grand d'automne"
+      },
+      {
+        "id": "camomille",
+        "name": "Camomille"
+      },
+      {
+        "id": "eupatoire-chanvrine",
+        "name": "Eupatoire chanvrine"
+      },
+      {
+        "id": "marguerite-commune",
+        "name": "Marguerite commune"
+      },
+      {
+        "id": "mauve-musquee",
+        "name": "Mauve musquée"
+      },
+      {
+        "id": "monarde",
+        "name": "Monarde"
+      },
+      {
+        "id": "illet-des-pres",
+        "name": "Œillet des prés"
+      },
+      {
+        "id": "petite-scabieuse-de-macedoine",
+        "name": "Petite scabieuse de Macédoine"
+      },
+      {
+        "id": "primevere-acaule",
+        "name": "Primevère acaule"
+      },
+      {
+        "id": "santoline",
+        "name": "Santoline"
+      },
+      {
+        "id": "sauge-des-bois",
+        "name": "Sauge des bois"
+      },
+      {
+        "id": "sauge-des-pres",
+        "name": "Sauge des prés"
+      },
+      {
+        "id": "sauge-officinale",
+        "name": "Sauge officinale"
+      },
+      {
+        "id": "scabieuse-des-champs",
+        "name": "Scabieuse des champs"
+      },
+      {
+        "id": "scabieuse",
+        "name": "Scabieuse"
+      },
+      {
+        "id": "tanaisie",
+        "name": "Tanaisie"
+      },
+      {
+        "id": "tournesol",
+        "name": "Tournesol"
+      },
+      {
+        "id": "valeriane-officinale",
+        "name": "Valériane officinale"
+      },
+      {
+        "id": "vergerette",
+        "name": "Vergerette"
+      },
+      {
+        "id": "artichaut",
+        "name": "Artichaut"
+      },
+      {
+        "id": "ciboulette",
+        "name": "Ciboulette"
+      },
+      {
+        "id": "fraisier-des-bois",
+        "name": "Fraisier des bois"
+      },
+      {
+        "id": "melisse",
+        "name": "Mélisse"
+      },
+      {
+        "id": "menthe-poivree",
+        "name": "Menthe poivrée"
+      },
+      {
+        "id": "fenouil",
+        "name": "Fenouil"
+      }
+    ]
+  },
+  {
+    "id": "couvre-sols",
+    "label": "Couvre-sols et zones ombragées",
+    "total": 80,
+    "maxPerItem": 5,
+    "unit": "plants",
+    "icon": "🍃",
+    "items": [
+      {
+        "id": "fleurs-des-elfes",
+        "name": "Fleurs des elfes"
+      },
+      {
+        "id": "fougere-male",
+        "name": "Fougère mâle"
+      },
+      {
+        "id": "geranium-a-gros-rhizome",
+        "name": "Géranium à gros rhizome"
+      },
+      {
+        "id": "geranium-vivace",
+        "name": "Géranium vivace"
+      },
+      {
+        "id": "heuchere-citronelle",
+        "name": "Heuchère 'Citronelle'"
+      },
+      {
+        "id": "heuchere-desespoir-du-peintre",
+        "name": "Heuchère 'Désespoir du peintre'"
+      },
+      {
+        "id": "petite-pervenche",
+        "name": "Petite pervenche"
+      },
+      {
+        "id": "pervenche",
+        "name": "Pervenche"
+      }
+    ]
+  },
+  {
+    "id": "graines",
+    "label": "Graines",
+    "total": 40,
+    "maxPerItem": 3,
+    "unit": "lots",
+    "icon": "🌾",
+    "items": [
+      {
+        "id": "avoine",
+        "name": "Avoine"
+      },
+      {
+        "id": "bleuet",
+        "name": "Bleuet"
+      },
+      {
+        "id": "bourrache",
+        "name": "Bourrache"
+      },
+      {
+        "id": "centauree-scabieuse",
+        "name": "Centaurée scabieuse"
+      },
+      {
+        "id": "coquelicot",
+        "name": "Coquelicot"
+      },
+      {
+        "id": "feverole",
+        "name": "Féverole"
+      },
+      {
+        "id": "haricot",
+        "name": "Haricot"
+      },
+      {
+        "id": "moutarde-blanche",
+        "name": "Moutarde blanche"
+      },
+      {
+        "id": "phacelie",
+        "name": "Phacélie"
+      },
+      {
+        "id": "rose-tremiere",
+        "name": "Rose trémière"
+      },
+      {
+        "id": "sarrasin",
+        "name": "Sarrasin"
+      },
+      {
+        "id": "seigle",
+        "name": "Seigle"
+      },
+      {
+        "id": "souci-officinal",
+        "name": "Souci officinal"
+      },
+      {
+        "id": "trefle-blanc",
+        "name": "Trèfle blanc"
+      },
+      {
+        "id": "trefle-incarnat",
+        "name": "Trèfle incarnat"
+      },
+      {
+        "id": "vesce-commune",
+        "name": "Vesce commune"
+      }
+    ]
+  }
+];
+
+var SHEET_DONS = 'Dons';
+var SHEET_DETAIL = 'Détail';
+var SHEET_STOCKS = 'Stocks';
+
+/* ---------- Installation ---------- */
+
+function installer() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var dons = ss.getSheetByName(SHEET_DONS) || ss.insertSheet(SHEET_DONS);
+  if (dons.getLastRow() === 0) {
+    var head = ['Date', 'Prénom', 'Nom', 'E-mail', 'Commentaire', 'Consentement'];
+    CATALOG.forEach(function (c) { head.push(c.label + ' (' + c.unit + ')'); });
+    head.push('Détail');
+    dons.appendRow(head);
+    dons.setFrozenRows(1);
+    dons.getRange(1, 1, 1, head.length).setFontWeight('bold');
+  }
+  var det = ss.getSheetByName(SHEET_DETAIL) || ss.insertSheet(SHEET_DETAIL);
+  if (det.getLastRow() === 0) {
+    det.appendRow(['Date', 'E-mail', 'Catégorie', 'Plante', 'Quantité']);
+    det.setFrozenRows(1);
+    det.getRange(1, 1, 1, 5).setFontWeight('bold');
+  }
+  var st = ss.getSheetByName(SHEET_STOCKS) || ss.insertSheet(SHEET_STOCKS);
+  if (st.getLastRow() === 0) {
+    st.appendRow(['Identifiant (ne pas modifier)', 'Catégorie', 'Total', 'Unité']);
+    CATALOG.forEach(function (c) { st.appendRow([c.id, c.label, c.total, c.unit]); });
+    st.setFrozenRows(1);
+    st.getRange(1, 1, 1, 4).setFontWeight('bold');
+  }
+}
+
+/* ---------- Lecture des stocks ---------- */
+
+function totals_() {
+  var out = {};
+  CATALOG.forEach(function (c) { out[c.id] = c.total; });
+  var st = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_STOCKS);
+  if (st && st.getLastRow() > 1) {
+    st.getRange(2, 1, st.getLastRow() - 1, 3).getValues().forEach(function (r) {
+      var n = Number(r[2]);
+      if (out.hasOwnProperty(r[0]) && isFinite(n) && n >= 0) out[r[0]] = Math.floor(n);
+    });
+  }
+  return out;
+}
+
+function taken_() {
+  var out = {};
+  CATALOG.forEach(function (c) { out[c.id] = 0; });
+  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_DONS);
+  if (!sh || sh.getLastRow() < 2) return out;
+  var vals = sh.getRange(2, 7, sh.getLastRow() - 1, CATALOG.length).getValues();
+  vals.forEach(function (row) {
+    CATALOG.forEach(function (c, i) { out[c.id] += Number(row[i]) || 0; });
+  });
+  return out;
+}
+
+function stock_() {
+  var t = totals_(), k = taken_(), res = {};
+  CATALOG.forEach(function (c) {
+    res[c.id] = { total: t[c.id], taken: k[c.id], remaining: Math.max(0, t[c.id] - k[c.id]) };
+  });
+  return res;
+}
+
+function json_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet() {
+  return json_({ ok: true, stock: stock_(), at: new Date().toISOString() });
+}
+
+/* ---------- Enregistrement d'un don ---------- */
+
+function clean_(s, max) {
+  s = String(s == null ? '' : s).replace(/[\u0000-\u001f]/g, ' ').trim();
+  // Neutralise les formules dans le tableur.
+  if (/^[=+\-@]/.test(s)) s = "'" + s;
+  return s.slice(0, max);
+}
+
+function doPost(e) {
+  var data;
+  try { data = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'format' }); }
+
+  if (data.website) return json_({ ok: true, stock: stock_() }); // piège à robots
+
+  var prenom = clean_(data.prenom, 60), nom = clean_(data.nom, 60), email = clean_(data.email, 120);
+  var commentaire = clean_(data.commentaire, 1000);
+  if (!prenom || !nom) return json_({ ok: false, error: 'identite' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json_({ ok: false, error: 'email' });
+  if (data.consent !== true) return json_({ ok: false, error: 'consent' });
+
+  var wanted = {}, lines = [], perCat = {};
+  CATALOG.forEach(function (c) {
+    perCat[c.id] = 0;
+    c.items.forEach(function (it) {
+      var q = Math.floor(Number((data.items || {})[it.id]) || 0);
+      if (q < 0) q = 0;
+      if (q > c.maxPerItem) q = c.maxPerItem;
+      if (q > 0) {
+        wanted[it.id] = q;
+        perCat[c.id] += q;
+        lines.push({ cat: c, name: it.name, q: q });
+      }
+    });
+  });
+  if (!lines.length) return json_({ ok: false, error: 'vide' });
+
+  var lock = LockService.getScriptLock();
+  try { lock.waitLock(20000); } catch (err) { return json_({ ok: false, error: 'occupe' }); }
+  try {
+    var stock = stock_();
+    var over = CATALOG.filter(function (c) { return perCat[c.id] > stock[c.id].remaining; });
+    if (over.length) {
+      return json_({ ok: false, error: 'stock', categories: over.map(function (c) { return c.id; }), stock: stock });
+    }
+    var now = new Date();
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var row = [now, prenom, nom, email, commentaire, 'Oui'];
+    CATALOG.forEach(function (c) { row.push(perCat[c.id]); });
+    row.push(lines.map(function (l) { return l.name + ' × ' + l.q; }).join(', '));
+    ss.getSheetByName(SHEET_DONS).appendRow(row);
+    var det = ss.getSheetByName(SHEET_DETAIL);
+    var detRows = lines.map(function (l) { return [now, email, l.cat.label, l.name, l.q]; });
+    det.getRange(det.getLastRow() + 1, 1, detRows.length, 5).setValues(detRows);
+    SpreadsheetApp.flush();
+    stock = stock_();
+  } finally {
+    lock.releaseLock();
+  }
+
+  try { notify_(prenom, nom, email, commentaire, lines); } catch (err) { console.error(err); }
+  return json_({ ok: true, stock: stock });
+}
+
+/* ---------- E-mails ---------- */
+
+function esc_(s) {
+  return String(s).replace(/[&<>"']/g, function (ch) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+  });
+}
+
+function recap_(lines) {
+  var html = '';
+  CATALOG.forEach(function (c) {
+    var ls = lines.filter(function (l) { return l.cat.id === c.id; });
+    if (!ls.length) return;
+    html += '<p style="margin:16px 0 6px;font-weight:700;color:#007a46;">' + esc_(c.label) + '</p><ul style="margin:0;padding-left:20px;">';
+    ls.forEach(function (l) { html += '<li>' + esc_(l.name) + ' × ' + l.q + (c.unit === 'lots' ? ' lot(s)' : '') + '</li>'; });
+    html += '</ul>';
+  });
+  return html;
+}
+
+function notify_(prenom, nom, email, commentaire, lines) {
+  var recap = recap_(lines);
+  if (CONFIG.SEND_CONFIRMATION) {
+    var body = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#1f2d3d;max-width:560px;">'
+      + '<p>Bonjour ' + esc_(prenom) + ',</p>'
+      + '<p>Merci pour votre don de plants pour la végétalisation de la cour. Voici le récapitulatif de ce que vous avez prévu d’apporter.</p>'
+      + recap
+      + '<p style="margin-top:18px;">' + esc_(CONFIG.RAPPEL) + '</p>'
+      + '<p>Pour modifier ou annuler votre don, il vous suffit de répondre à cet e-mail.</p>'
+      + '<p>Merci pour votre participation&nbsp;!</p></div>';
+    var opts = { to: email, subject: 'Votre don de plants pour la cour', htmlBody: body, name: CONFIG.SENDER_NAME };
+    if (CONFIG.REPLY_TO) opts.replyTo = CONFIG.REPLY_TO;
+    MailApp.sendEmail(opts);
+  }
+  if (CONFIG.NOTIFY_TO) {
+    MailApp.sendEmail({
+      to: CONFIG.NOTIFY_TO,
+      subject: 'Nouveau don de plants : ' + prenom + ' ' + nom,
+      htmlBody: '<div style="font-family:Arial,sans-serif;font-size:14px;">'
+        + '<p><b>' + esc_(prenom + ' ' + nom) + '</b> (' + esc_(email) + ')</p>' + recap
+        + (commentaire ? '<p><b>Commentaire</b><br>' + esc_(commentaire) + '</p>' : '') + '</div>',
+      name: CONFIG.SENDER_NAME
+    });
+  }
+}
