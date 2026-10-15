@@ -25,7 +25,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:20261103-ca-apel@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20261103T203000
 DTEND;TZID=Europe/Paris:20261103T220000
 SUMMARY:Conseil d'administration de l'APEL
@@ -40,7 +40,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20261106-festival-du-livre@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20261106T163000
 DTEND;TZID=Europe/Paris:20261106T190000
 SUMMARY:Festival du livre (APEL)
@@ -55,7 +55,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20261109-atelier-plantation@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;VALUE=DATE:20261109
 DTEND;VALUE=DATE:20261111
 SUMMARY:Atelier plantation\, végétalisation des cours
@@ -65,7 +65,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:20261110-ca-ogec@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20261110T201500
 DTEND;TZID=Europe/Paris:20261110T220000
 SUMMARY:Conseil d'administration de l'OGEC
@@ -80,7 +80,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20261116-vente-noel-apel@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;VALUE=DATE:20261116
 DTEND;VALUE=DATE:20261117
 SUMMARY:Vente de Noël APEL\, dernier jour pour commander
@@ -89,22 +89,22 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:20261128-matinee-coup-de-pouce@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20261128T090000
 DTEND;TZID=Europe/Paris:20261128T120000
-SUMMARY:Matinée coup de pouce et apéro (OGEC)
-DESCRIPTION:Désherbage\, entretien des zones paysagées\, portes-trottinettes et déchetterie. Venez une heure ou toute la matinée\, enfants bienvenus (pas de garderie). Pensez à vos gants. Inscription sur https://docs.google.com/forms/d/e/1FAIpQLScyhZSqmybEsbUTMKwRo7Q7rI_HYJxujz8lubqVI5vCYuiJ5g/viewform
+SUMMARY:Matinée coup de pouce (OGEC)
+DESCRIPTION:Désherbage\, entretien des zones paysagées\, portes-trottinettes et déchetterie. Temps convivial pour finir la matinée. Venez une heure ou toute la matinée\, enfants bienvenus (pas de garderie). Pensez à vos gants. Inscription sur https://docs.google.com/forms/d/e/1FAIpQLScyhZSqmybEsbUTMKwRo7Q7rI_HYJxujz8lubqVI5vCYuiJ5g/viewform
 LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 Angers
 STATUS:CONFIRMED
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
-DESCRIPTION:Rappel Matinée coup de pouce et apéro (OGEC)
+DESCRIPTION:Rappel Matinée coup de pouce (OGEC)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20261129-fin-collecte-cour@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
 SUMMARY:Dernier jour de la collecte pour les cours
@@ -113,7 +113,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:20261211-veillee-noel@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20261211T163000
 DTEND;TZID=Europe/Paris:20261211T193000
 SUMMARY:Veillée de Noël
@@ -128,62 +128,62 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20270130-matinee-coup-de-pouce@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20270130T090000
 DTEND;TZID=Europe/Paris:20270130T120000
-SUMMARY:Matinée coup de pouce et apéro (OGEC)
+SUMMARY:Matinée coup de pouce (OGEC)
 DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-inscription sur https://docs.google.com/forms/d/e/1FAIpQLScyhZSqmybEsbUTMKwRo7Q7rI_HYJxujz8lubqVI5vCYuiJ5g/viewform
 LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 Angers
 STATUS:CONFIRMED
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
-DESCRIPTION:Rappel Matinée coup de pouce et apéro (OGEC)
+DESCRIPTION:Rappel Matinée coup de pouce (OGEC)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20270313-matinee-coup-de-pouce@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20270313T090000
 DTEND;TZID=Europe/Paris:20270313T120000
-SUMMARY:Matinée coup de pouce et apéro (OGEC)
+SUMMARY:Matinée coup de pouce (OGEC)
 DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-inscription sur https://docs.google.com/forms/d/e/1FAIpQLScyhZSqmybEsbUTMKwRo7Q7rI_HYJxujz8lubqVI5vCYuiJ5g/viewform
 LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 Angers
 STATUS:CONFIRMED
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
-DESCRIPTION:Rappel Matinée coup de pouce et apéro (OGEC)
+DESCRIPTION:Rappel Matinée coup de pouce (OGEC)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20270410-matinee-coup-de-pouce@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20270410T090000
 DTEND;TZID=Europe/Paris:20270410T120000
-SUMMARY:Matinée coup de pouce et apéro (OGEC)
+SUMMARY:Matinée coup de pouce (OGEC)
 DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-inscription sur https://docs.google.com/forms/d/e/1FAIpQLScyhZSqmybEsbUTMKwRo7Q7rI_HYJxujz8lubqVI5vCYuiJ5g/viewform
 LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 Angers
 STATUS:CONFIRMED
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
-DESCRIPTION:Rappel Matinée coup de pouce et apéro (OGEC)
+DESCRIPTION:Rappel Matinée coup de pouce (OGEC)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:20270612-matinee-coup-de-pouce@apel-sainte-bernadette.fr
-DTSTAMP:20261015T140000Z
+DTSTAMP:20261015T165000Z
 DTSTART;TZID=Europe/Paris:20270612T090000
 DTEND;TZID=Europe/Paris:20270612T120000
-SUMMARY:Matinée coup de pouce et apéro (OGEC)
+SUMMARY:Matinée coup de pouce (OGEC)
 DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-inscription sur https://docs.google.com/forms/d/e/1FAIpQLScyhZSqmybEsbUTMKwRo7Q7rI_HYJxujz8lubqVI5vCYuiJ5g/viewform
 LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 Angers
 STATUS:CONFIRMED
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
-DESCRIPTION:Rappel Matinée coup de pouce et apéro (OGEC)
+DESCRIPTION:Rappel Matinée coup de pouce (OGEC)
 END:VALARM
 END:VEVENT
 END:VCALENDAR
