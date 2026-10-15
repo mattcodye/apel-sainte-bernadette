@@ -1,0 +1,219 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Ecole Sainte Bernadette Angers//Gazette 5//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:École Sainte Bernadette\, automne 2026
+X-WR-TIMEZONE:Europe/Paris
+BEGIN:VTIMEZONE
+TZID:Europe/Paris
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:20261103-ca-apel@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20261103T203000
+DTEND;TZID=Europe/Paris:20261103T220000
+SUMMARY:Conseil d'administration de l'APEL
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Ouvert à tous les parents. Pour toute question\, écri
+ vez à apel.angers.stebernadette@ec49.net
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Conseil d'administration de l'APEL
+TRIGGER:-PT1H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261106-festival-du-livre@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20261106T163000
+DTEND;TZID=Europe/Paris:20261106T190000
+SUMMARY:Festival du livre (APEL)
+LOCATION:Cantine de l'école\, rue Nicolas Bataille\, 49000 Angers
+DESCRIPTION:Vente de livres pour tous les âges. Coup de main bien
+ venu pour l'installation dès 14h\, la vente ou le rangement (a
+ pel.angers.stebernadette@ec49.net). Sélection sur https://www.l
+ efestivaldulivre.com/espace/famille
+URL:https://www.lefestivaldulivre.com/espace/famille
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Festival du livre
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261109-atelier-plantation@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261111
+SUMMARY:Atelier plantation\, végétalisation des cours
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Venez creuser et planter aux côtés de l'équipe\, ou o
+ ffrez des végétaux de la liste partagée. Horaires à confirmer.
+  Don de plants sur https://mattcodye.github.io/apel-sainte-bern
+ adette/plants/
+URL:https://mattcodye.github.io/apel-sainte-bernadette/plants/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20261110-ca-ogec@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20261110T201500
+DTEND;TZID=Europe/Paris:20261110T220000
+SUMMARY:Conseil d'administration de l'OGEC
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Heure de fin indicative.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Conseil d'administration de l'OGEC
+TRIGGER:-PT1H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261116-vente-noel-apel@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:Vente de Noël APEL\, dernier jour pour commander
+DESCRIPTION:Sapins Nordmann\, chocolats\, truffes\, pâtes de fru
+ its\, noix et noisettes à commander sur HelloAsso. Les bénéfic
+ es financent la veillée de Noël et les projets de l'APEL.
+URL:https://www.helloasso.com/associations/association-de-par
+ ents-d-eleves-de-l-enseignement-libre-apel-ste-bernadette/bou
+ tiques/sapins-et-douceurs-noel-2026
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20261128-matinee-coup-de-pouce@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20261128T090000
+DTEND;TZID=Europe/Paris:20261128T120000
+SUMMARY:Matinée coup de pouce et apéro (OGEC)
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Désherbage\, entretien des zones paysagées\, portes-
+ trottinettes et déchetterie. Venez une heure ou toute la mati
+ née\, enfants bienvenus (pas de garderie). Pensez à vos gants
+ . Inscription sur https://forms.gle/WZJL98K9Da3iNPwp7
+URL:https://forms.gle/WZJL98K9Da3iNPwp7
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Matinée coup de pouce et apéro
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261129-fin-collecte-cour@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Dernier jour de la collecte pour les cours
+DESCRIPTION:Végétalisation des cours de l'école Sainte Bernadett
+ e. Don défiscalisé à 66 % sur Jaidemonecole.
+URL:https://jaidemonecole.org/campaigns/3368-vegetalisation-de
+ s-cours-de-l-ecole-sainte-bernadette/contributions/new
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20261211-veillee-noel@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20261211T163000
+DTEND;TZID=Europe/Paris:20261211T193000
+SUMMARY:Veillée de Noël
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:À partir de 16h30 (heure de fin non communiquée). Crè
+ che vivante\, chants de Noël des enfants\, churros\, tartiflet
+ te\, vin chaud et bière de Noël.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Veillée de Noël
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270130-matinee-coup-de-pouce@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20270130T090000
+DTEND;TZID=Europe/Paris:20270130T120000
+SUMMARY:Matinée coup de pouce et apéro (OGEC)
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-ins
+ cription sur https://forms.gle/WZJL98K9Da3iNPwp7
+URL:https://forms.gle/WZJL98K9Da3iNPwp7
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Matinée coup de pouce et apéro
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270313-matinee-coup-de-pouce@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20270313T090000
+DTEND;TZID=Europe/Paris:20270313T120000
+SUMMARY:Matinée coup de pouce et apéro (OGEC)
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-ins
+ cription sur https://forms.gle/WZJL98K9Da3iNPwp7
+URL:https://forms.gle/WZJL98K9Da3iNPwp7
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Matinée coup de pouce et apéro
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270410-matinee-coup-de-pouce@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20270410T090000
+DTEND;TZID=Europe/Paris:20270410T120000
+SUMMARY:Matinée coup de pouce et apéro (OGEC)
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-ins
+ cription sur https://forms.gle/WZJL98K9Da3iNPwp7
+URL:https://forms.gle/WZJL98K9Da3iNPwp7
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Matinée coup de pouce et apéro
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270612-matinee-coup-de-pouce@angers-stebernadette.fr
+DTSTAMP:20261015T120000Z
+DTSTART;TZID=Europe/Paris:20270612T090000
+DTEND;TZID=Europe/Paris:20270612T120000
+SUMMARY:Matinée coup de pouce et apéro (OGEC)
+LOCATION:École Sainte Bernadette\, 15 rue Nicolas Bataille\, 49000 An
+ gers
+DESCRIPTION:Horaires à confirmer (9h-12h le 28 novembre). Pré-ins
+ cription sur https://forms.gle/WZJL98K9Da3iNPwp7
+URL:https://forms.gle/WZJL98K9Da3iNPwp7
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Matinée coup de pouce et apéro
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+END:VCALENDAR
